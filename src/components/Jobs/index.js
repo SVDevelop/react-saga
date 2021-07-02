@@ -1,26 +1,15 @@
 import React, {useEffect} from 'react';
-import {EMPLOYEES, JOBS} from "../../modules/api/endpoints";
-import api from "../../modules/api/api";
-import {useDispatch, useSelector} from "react-redux";
-import {apiActions} from "../../modules/api/actions";
+import {JOBS} from "../../modules/api/endpoints";
+import useFetch from "../../hooks/useFetch";
 
 const Jobs = () => {
-    const state = useSelector(state => state.api[JOBS])
-    const dispatch = useDispatch()
+    const {response, performFetch} = useFetch(JOBS)
 
-    useEffect(async () => {
-        try {
-            dispatch(apiActions.fetch(JOBS))
+    useEffect(() => {
+       performFetch()
+    }, [performFetch]);
 
-            const data = await api.fetch(JOBS)
-
-            dispatch(apiActions.fetchSuccess(JOBS, data))
-        } catch (e) {
-            dispatch(apiActions.fetchFailure(JOBS, e))
-        }
-    }, []);
-
-    console.log(state)
+    console.log(response)
     return (
         <div>
            JobsComponent
